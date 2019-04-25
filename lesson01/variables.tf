@@ -10,3 +10,15 @@ variable "tags" {
   description = "Tags to set in the resources"
   type        = "map"
 }
+
+variable "app_name" {
+  default     = "nginx"
+  description = "The application name, this must match with the name of the docker image"
+  type        = "string"
+}
+
+variable "app_version" {
+  default     = "1.16"
+  description = "The version of the application name, this must match with the name of the docker tag"
+  type        = "string"
+}
