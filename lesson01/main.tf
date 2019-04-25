@@ -1,7 +1,5 @@
 resource "aws_default_vpc" "default" {
-  tags = {
-    Name = "Default VPC"
-  }
+  tags = "${var.tags}"
 }
 
 resource "aws_security_group" "web" {
@@ -23,13 +21,7 @@ resource "aws_security_group" "web" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Terraform  = true
-    Service    = "web"
-    Customer   = "Stark Industries"
-    Owner      = "Wizeline"
-    Maintainer = "devops@wizeline.com"
-  }
+  tags = "${var.tags}"
 }
 
 resource "aws_instance" "web" {
@@ -63,11 +55,5 @@ resource "aws_instance" "web" {
 
   vpc_security_group_ids = ["${aws_security_group.web.id}"]
 
-  tags = {
-    Terraform  = true
-    Service    = "web"
-    Customer   = "Stark Industries"
-    Owner      = "Wizeline"
-    Maintainer = "devops@wizeline.com"
-  }
+  tags = "${var.tags}"
 }
