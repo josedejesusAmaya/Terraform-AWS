@@ -38,4 +38,11 @@ resource "aws_instance" "web" {
 
   tags = "${merge(var.tags, map("Name", format("%s-%s",data.aws_caller_identity.current.user_id,"ec2")))}"
 }
+
+resource "aws_route53_record" "dns-web" {
+  zone_id = "${data.aws_route53_zone.current.zone_id}"
+  name    = "${data.aws_caller_identity.current.user_id}.academy.wizeline.dev"
+  type    = "A"
+  ttl     = 300
+  records = ["${aws_instance.web.public_ip}"]
 }
