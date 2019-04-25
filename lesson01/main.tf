@@ -3,7 +3,7 @@ resource "aws_default_vpc" "default" {
 }
 
 resource "aws_security_group" "web" {
-  name        = "web"
+  name        = "${data.aws_caller_identity.current.user_id}-web"
   description = "Allow web traffic"
   vpc_id      = "${aws_default_vpc.default.id}"
 
@@ -36,5 +36,6 @@ resource "aws_instance" "web" {
 
   vpc_security_group_ids = ["${aws_security_group.web.id}"]
 
-  tags = "${var.tags}"
+  tags = "${merge(var.tags, map("Name", format("%s-%s",data.aws_caller_identity.current.user_id,"ec2")))}"
+}
 }
