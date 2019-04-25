@@ -28,3 +28,5 @@ data "template_file" "user_data" {
     docker_tag   = "${var.app_version}"
   }
 }
+
+data "aws_caller_identity" "current" {}
