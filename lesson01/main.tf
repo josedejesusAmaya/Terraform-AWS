@@ -32,26 +32,7 @@ resource "aws_instance" "web" {
     command = "bash -c 'MAX=10; C=0; until curl -s -o /dev/null ${aws_instance.web.public_dns}; do [ $C -eq $MAX ] && { exit 1; } || sleep 10; ((C++)); done;' || false"
   }
 
-  user_data = <<-EOF
-    #!/bin/bash
-    #Update installed pacakges
-    yum update -y
-
-    #Install docker
-    yum install -y docker
-
-    #Start Docker
-    sudo service docker start
-
-    #Add ec2-user to the docker group
-    #All commands here are executed as super admin
-    #but still, let's add the ec2-user to the docker group
-    usermod -a -G docker ec2-user 
-
-    #Run the nginx 
-    docker run -d -p 80:80 nginx
-    
-  EOF
+  user_data = "${data.template_file.user_data.rendered}"
 
   vpc_security_group_ids = ["${aws_security_group.web.id}"]
 
