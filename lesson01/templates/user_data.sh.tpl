@@ -14,4 +14,4 @@ service docker start
 usermod -a -G docker ec2-user 
 
 #Run the nginx 
-docker run -d -p 80:80 ${docker_image}:${docker_tag}
+docker run -d -p 80:80 --restart=always ${docker_image}:${docker_tag}
