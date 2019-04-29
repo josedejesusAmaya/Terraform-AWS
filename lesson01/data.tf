@@ -32,5 +32,5 @@ data "template_file" "user_data" {
 data "aws_caller_identity" "current" {}
 
 data "aws_route53_zone" "current" {
-  name = "academy.wizeline.dev"
+  name = "${var.domain}"
 }
