@@ -22,3 +22,9 @@ variable "app_version" {
   description = "The version of the application name, this must match with the name of the docker tag"
   type        = "string"
 }
+
+variable "domain" {
+  default     = "academy.wizeline.dev"
+  description = "The domain name to use"
+  type        = "string"
+}
