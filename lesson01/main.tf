@@ -41,7 +41,7 @@ resource "aws_instance" "web" {
 
 resource "aws_route53_record" "dns-web" {
   zone_id = "${data.aws_route53_zone.current.zone_id}"
-  name    = "${data.aws_caller_identity.current.user_id}.academy.wizeline.dev"
+  name    = "${data.aws_caller_identity.current.user_id}.${var.domain}"
   type    = "A"
   ttl     = 300
   records = ["${aws_instance.web.public_ip}"]
