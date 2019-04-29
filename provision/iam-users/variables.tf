@@ -9,3 +9,5 @@ variable "group_name" {
 variable "tf_state_bucket" {}
 
 variable "aws_region" {}
+
+variable "pgp_key" {}

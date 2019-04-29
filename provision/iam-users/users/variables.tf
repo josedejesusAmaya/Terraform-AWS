@@ -9,3 +9,5 @@ variable "name" {
 variable "tf_state_bucket" {}
 
 variable "group_name" {}
+
+variable "pgp_key" {}
