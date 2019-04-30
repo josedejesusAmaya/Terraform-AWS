@@ -24,7 +24,7 @@ variable "total_users" {
 }
 
 variable "pgp_key" {
-  default = "sortigoza"
+  default = "wizelinedevops"
 }
 
 # Since we will duplicate this block, leave erc_name without var
