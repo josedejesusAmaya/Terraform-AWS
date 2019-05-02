@@ -39,7 +39,7 @@ resource "aws_instance" "web" {
   tags = "${merge(var.tags, map("Name", format("%s-%s",data.aws_caller_identity.current.user_id,"ec2")))}"
 }
 
-resource "aws_route53_record" "dns-web" {
+resource "aws_route53_record" "dns_web" {
   zone_id = "${data.aws_route53_zone.current.zone_id}"
   name    = "${data.aws_caller_identity.current.user_id}.${var.domain}"
   type    = "A"
