@@ -1,3 +1,10 @@
+terraform {
+  backend "s3" {
+    bucket = "wizeline-academy-terraform"
+    region = "us-east-2"
+  }
+}
+
 resource "aws_default_vpc" "default" {
   tags = "${var.tags}"
 }
