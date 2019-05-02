@@ -1,7 +1,6 @@
 terraform {
   backend "s3" {
     bucket = "wizeline-academy-terraform"
-    key    = "academy-user-N/terraform-academy/lesson01/terraform_lesson01.tfstate"
     region = "us-east-2"
   }
 }
