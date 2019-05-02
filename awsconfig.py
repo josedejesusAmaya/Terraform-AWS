@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
+"""
+Utility created to update the AWS credentials for the Terraform Academy.
+"""
+
 import configparser
+import sys
 import os
 from os.path import expanduser
-from optparse import OptionError, OptionParser, Option
+from optparse import OptionParser, Option
 
 def error(msg):
+    """
+    Formats errors and provides exit status 1.
+    """
     sys.stderr.write(msg + "\n")
     sys.exit(1)
 
@@ -27,8 +35,8 @@ def update_aws_credentials(profile, aws_access_key, aws_secret_key, aws_session_
     config.set(profile, 'aws_secret_access_key', aws_secret_key)
     if aws_session_token != '':
         config.set(profile, 'aws_session_token', aws_session_token)
-    with open(cred_file, 'w+') as f:
-        config.write(f)
+    with open(cred_file, 'w+') as new_cred_file:
+        config.write(new_cred_file)
 
 def update_aws_config(profile, output, region):
     """Update AWS config file in ~/.aws/config file.
@@ -38,7 +46,7 @@ def update_aws_config(profile, output, region):
     :return:
     """
     home = expanduser("~")
-    config_file =  home + '/.aws/config'
+    config_file = home + '/.aws/config'
     # Prepend the word profile the the profile name
     profile = 'profile ' + profile
     config = configparser.RawConfigParser()
@@ -48,42 +56,44 @@ def update_aws_config(profile, output, region):
         config.add_section(profile)
     config.set(profile, 'output', output)
     config.set(profile, 'region', region)
-    with open(config_file, 'w+') as f:
-        config.write(f)
+    with open(config_file, 'w+') as new_config_file:
+        config.write(new_config_file)
 
 
 def main(options):
-    k = options.awskey
-    s = options.awssecret
-    p = options.awsprofile
-    update_aws_credentials(p, k, s, '')
-    update_aws_config(p,'json','us-east-2')
-    
+    """
+    Main function, updates credentials in the ~/.aws/credentials and ~/.aws/config files.
+    """
+    aws_key = options.awskey
+    aws_sec = options.awssecret
+    prof = options.awsprofile
+    update_aws_credentials(prof, aws_key, aws_sec, '')
+    update_aws_config(prof, 'json', 'us-east-2')
 
 if __name__ == '__main__':
     # get cmd line opts
-    parser = OptionParser()
-    parser.add_option(Option("-k", "--awskey", dest="awskey",
+    PARSER = OptionParser()
+    PARSER.add_option(Option("-k", "--awskey", dest="awskey",
                              help="the aws access key", metavar="awskey",
                              default=None))
 
-    parser.add_option(Option("-s", "--secret", dest="awssecret",
+    PARSER.add_option(Option("-s", "--secret", dest="awssecret",
                              help="the aws secret key ", metavar="awssecret",
                              default=None))
 
-    parser.add_option(Option("-p", "--profile", dest="awsprofile",
+    PARSER.add_option(Option("-p", "--profile", dest="awsprofile",
                              help="the aws profile to set ", metavar="awsprofile",
                              default=None))
 
-    options, args = parser.parse_args()
+    OPTIONS, ARGS = PARSER.parse_args()
 
-    if not options.awskey:
+    if not OPTIONS.awskey:
         error("--awskey is required!")
 
-    if not options.awssecret:
+    if not OPTIONS.awssecret:
         error("--secret is required")
 
-    if not options.awsprofile:
+    if not OPTIONS.awsprofile:
         error("--profile is required")
 
-    main(options)
+    main(OPTIONS)
