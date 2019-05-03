@@ -10,7 +10,7 @@ get_keys(){
     echo "$TF_OUTPUT"| jq -r ".iam_keys.value[]"|
     while IFS=$'\t' read -r data; do
         decrypted=$(echo $data| base64 --decode | keybase pgp decrypt)
-        echo $decrypted\n
+        echo $decrypted
     done
 }
 
