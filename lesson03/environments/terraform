@@ -32,7 +32,7 @@ case "$1" in
   plan|apply|destroy)
     print_tf_info
     tf_init
-    terraform "$@" -var-file=$VAR_FILE
+    terraform "$@" -var-file=<(sed "s/academy-user-N/academy-user-$USER_N/g" $VAR_FILE)
     ;;
   *)
     terraform "$@"
