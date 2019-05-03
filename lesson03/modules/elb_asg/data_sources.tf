@@ -3,8 +3,6 @@ data "aws_subnet_ids" "vpc_subnets" {
   vpc_id = "${aws_default_vpc.default.id}"
 }
 
-data "aws_availability_zones" "available" {}
-
 data "aws_ami" "amazon_linux" {
   most_recent = true
 
@@ -31,8 +29,8 @@ data "template_file" "deploy_sh" {
   template = "${file("${path.module}/userdata.sh")}"
 
   vars {
-    docker_tag  = "${var.metadata["appversion"]}"
+    docker_tag  = "${local.appversion}"
     ENVIRONMENT = "${var.env}"
-    HOSTNAME    = "${var.metadata["appname"]}-${var.env}-ec2-${var.metadata["appversion"]}"
+    HOSTNAME    = "${local.app_name}-ec2-${local.appversion}"
   }
 }

@@ -1,0 +1,40 @@
+#!/bin/bash -e
+
+
+[ -z $ENV ] && echo "ENV not defined" && exit 1
+[ -z $USER_N ] && echo "USER_N not defined" && exit 1
+
+
+VAR_FILE=terraform-$ENV.tfvars
+BACKEND_KEY=key=academy-user-$USER_N/terraform-academy/lesson3/$ENV-terraform.tfstate
+
+if [ ! -f $VAR_FILE ]; then
+    echo "VAR_FILE=$VAR_FILE not found!"
+fi
+
+print_tf_info(){
+    echo "using VAR_FILE! $VAR_FILE"
+    echo "using terraform state! $BACKEND_KEY"
+}
+
+tf_init(){
+  rm -f .terraform/terraform.tfstate
+  terraform init \
+        -backend-config="$BACKEND_KEY" \
+        -backend=true
+}
+
+case "$1" in
+  init)
+    print_tf_info
+    tf_init
+    ;;
+  plan|apply|destroy)
+    print_tf_info
+    tf_init
+    terraform "$@" -var-file=$VAR_FILE
+    ;;
+  *)
+    terraform "$@"
+    ;;
+esac
