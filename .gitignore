@@ -1,3 +1,15 @@
+#VS code local files
+.vscode/*
+
+# Python Virtual Environment
+
+*/__pycache__/*
+*/bin/*
+*/include/*
+*/lib/*
+.Python
+*/pyvenv.cfg
+
 # Local .terraform directories
 **/.terraform/*
 
