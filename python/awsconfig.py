@@ -91,8 +91,10 @@ def terraform_init(aws_key, aws_sec, lesson, env="dev"):
     try:
         command_exec = subprocess.run(command, capture_output=True, shell=True)
         print(command_exec.stdout.decode("utf-8"))
-    except:
-        error("Error when initializing terraform backend", command_exec.returncode)
+    except RuntimeError as err:
+        error(err, command_exec.returncode)
+    except AttributeError as err:
+        error(err, command_exec.returncode)
     print("Backend initialized successfully")
     sys.exit(command_exec.returncode)
 
@@ -130,7 +132,8 @@ if __name__ == '__main__':
                         action='store_true')
 
     PARSER.add_argument("-l", "--lesson", dest="lesson",
-                        help="Lesson to initialize backend", metavar="lesson",
+                        help="Lesson to initialize backend, accepted values are lesson01,\
+                              lesson02 or lesson03", metavar="lesson",
                         default=None)
 
     PARSER.add_argument("-e", "--env", dest="environment",
@@ -152,7 +155,7 @@ if __name__ == '__main__':
         error("-p, --profile is required")
 
     if ARGS.init:
-        if not ARGS.lesson:
+        if ARGS.lesson not in ["lesson01", "lesson02", "lesson03"]:
             PARSER.print_help()
             error("-l, --lesson is required")
         if not ARGS.environment:
