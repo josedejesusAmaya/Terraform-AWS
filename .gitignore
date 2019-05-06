@@ -9,6 +9,7 @@
 */lib/*
 .Python
 */pyvenv.cfg
+*/*.ini
 
 # Local .terraform directories
 **/.terraform/*

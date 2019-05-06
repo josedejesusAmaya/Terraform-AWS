@@ -18,6 +18,26 @@ def error(msg, exitsts=1):
     sys.stderr.write(msg + "\n")
     sys.exit(exitsts)
 
+def read_env_variables(ini_file, section="main"):
+    """
+    Reads environment variables from a .env file
+    :param:
+    :return variables: Environment variables under the main section
+    """
+    config = configparser.ConfigParser()
+    config.read(ini_file)
+    options = config.options(section)
+    variables = {}
+    for option in options:
+        try:
+            variables[option] = config.get(section, option)
+            if variables[option] == -1:
+                print("skip: %s" % option)
+        except configparser.Error:
+            print("exception on %s!" % option)
+            variables[option] = None
+    return variables
+
 def update_aws_credentials(profile, aws_access_key, aws_secret_key, aws_session_token):
     """Update AWS credentials in ~/.aws/credentials default file.
     :param profile: AWS profile name
@@ -100,13 +120,13 @@ def terraform_init(aws_key, aws_sec, lesson, env="dev"):
 
 
 
-def main(options):
+def main(variables):
     """
     Main function, updates credentials in the ~/.aws/credentials and ~/.aws/config files.
     """
-    aws_key = options.awskey
-    aws_sec = options.awssecret
-    prof = options.awsprofile
+    aws_key = variables["aws_access_key"]
+    aws_sec = variables["aws_secret_access_key"]
+    prof = variables["aws_profile"]
     update_aws_credentials(prof, aws_key, aws_sec, '')
     update_aws_config(prof, 'json', 'us-east-2')
     print("Profile updated successfully")
@@ -115,17 +135,6 @@ def main(options):
 if __name__ == '__main__':
     # get cmd line opts
     PARSER = argparse.ArgumentParser()
-    PARSER.add_argument("-k", "--awskey", dest="awskey",
-                        help="AWS access key", metavar="awskey",
-                        default=None)
-
-    PARSER.add_argument("-s", "--secret", dest="awssecret",
-                        help="AWS secret key", metavar="awssecret",
-                        default=None)
-
-    PARSER.add_argument("-p", "--profile", dest="awsprofile",
-                        help="AWS profile to set", metavar="awsprofile",
-                        default=None)
 
     PARSER.add_argument("-i", "--init", dest="init",
                         help="Init terraform backend of a lesson",
@@ -136,30 +145,30 @@ if __name__ == '__main__':
                               lesson02 or lesson03", metavar="lesson",
                         default=None)
 
-    PARSER.add_argument("-e", "--env", dest="environment",
-                        help="Environment to initialize", metavar="environment",
-                        default=None)
+
 
     ARGS = PARSER.parse_args()
 
-    if not ARGS.awskey:
-        PARSER.print_help()
-        error("-k, --awskey is required")
+    VARIABLES = read_env_variables("variables.ini", "main")
 
-    if not ARGS.awssecret:
-        PARSER.print_help()
-        error("-s, --secret is required")
+    if not VARIABLES["aws_access_key"]:
+        error("An AWS access key is needed in the variable.ini file")
 
-    if not ARGS.awsprofile:
-        PARSER.print_help()
-        error("-p, --profile is required")
+    if not VARIABLES["aws_secret_access_key"]:
+        error("An AWS secret access key is needed in the variable.ini file")
+
+    if not VARIABLES["aws_profile"]:
+        error("An AWS profile name is needed in the variable.ini file")
+
+    if not VARIABLES["environment"]:
+        error("An environment name is needed in the variable.ini file")
 
     if ARGS.init:
         if ARGS.lesson not in ["lesson01", "lesson02", "lesson03"]:
             PARSER.print_help()
             error("-l, --lesson is required")
-        if not ARGS.environment:
-            error("-e, --env is required")
-        terraform_init(ARGS.awskey, ARGS.awssecret, ARGS.lesson, ARGS.environment)
+        terraform_init(VARIABLES["aws_access_key"],
+                       VARIABLES["aws_secret_access_key"],
+                       ARGS.lesson, VARIABLES["environment"])
 
-    main(ARGS)
+    main(VARIABLES)
