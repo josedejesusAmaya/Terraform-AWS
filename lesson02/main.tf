@@ -24,10 +24,6 @@ resource "aws_default_vpc" "default" {
 # Launch configuration
 #--------------------------------------------------------------
 resource "aws_launch_configuration" "lc" {
-  lifecycle {
-    create_before_destroy = true
-  }
-
   name_prefix                 = "${var.metadata["appname"]}-${var.env}-lc-${var.metadata["appversion"]}-"
   image_id                    = "${data.aws_ami.amazon_linux.id}"
   instance_type               = "${var.instance_type}"
@@ -35,6 +31,10 @@ resource "aws_launch_configuration" "lc" {
   user_data                   = "${data.template_file.deploy_sh.rendered}"
   key_name                    = "${var.key_name}"
   associate_public_ip_address = "${var.associate_public_ip_address}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 #===========================================
@@ -87,13 +87,12 @@ resource "aws_autoscaling_group" "asg" {
 #  Elastic Load Balancer
 #===========================================
 resource "aws_elb" "elb" {
-  name            = "${var.elb_name}-elb-${var.env}"
-  subnets         = ["${data.aws_subnet_ids.vpc_subnets.ids}"]
-  security_groups = ["${aws_security_group.web.id}"]
-  tags            = "${merge(var.tags, map("Name", format("%s", var.elb_name)))}"
-  listener        = ["${var.elb_listener}"]
-  health_check    = ["${var.elb_health_check}"]
-
+  name                        = "${var.elb_name}-elb-${var.env}"
+  subnets                     = ["${data.aws_subnet_ids.vpc_subnets.ids}"]
+  security_groups             = ["${aws_security_group.web.id}"]
+  tags                        = "${merge(var.tags, map("Name", format("%s", var.elb_name)))}"
+  listener                    = ["${var.elb_listener}"]
+  health_check                = ["${var.elb_health_check}"]
   cross_zone_load_balancing   = "${var.cross_zone_load_balancing}"
   connection_draining         = "${var.connection_draining}"
   connection_draining_timeout = "${var.connection_draining_timeout}"
