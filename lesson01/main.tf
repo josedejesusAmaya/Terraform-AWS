@@ -34,6 +34,7 @@ resource "aws_security_group" "web" {
 resource "aws_instance" "web" {
   ami           = "${data.aws_ami.amazon_linux.id}"
   instance_type = "t2.micro"
+  key_name      = "academy-ohio"
 
   provisioner "local-exec" {
     command = "bash -c 'MAX=10; C=0; until curl -s -o /dev/null ${aws_instance.web.public_dns}; do [ $C -eq $MAX ] && { exit 1; } || sleep 10; ((C++)); done;' || false"
