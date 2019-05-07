@@ -42,3 +42,6 @@ override.tf.json
 # example: *tfplan*
 
 .env
+
+#DS local files
+.DS_Store/*
