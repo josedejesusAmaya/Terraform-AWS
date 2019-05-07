@@ -56,7 +56,7 @@ resource "aws_autoscaling_group" "asg" {
 
   //TAGS propagated to each EC2 instance
   tags = "${list(
-    map("key", "Name",          "value", "${var.metadata["appname"]}-${var.env}-ec2-${var.metadata["appversion"]}",         "propagate_at_launch", true)
+    map("key", "Name", "value", "${var.metadata["appname"]}-${var.env}-ec2-${var.metadata["appversion"]}","propagate_at_launch", true)
   )}"
 
   lifecycle {
