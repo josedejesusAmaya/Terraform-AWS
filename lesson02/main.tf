@@ -28,12 +28,10 @@ resource "aws_launch_configuration" "lc" {
     create_before_destroy = true
   }
 
-  name_prefix     = "${var.metadata["appname"]}-${var.env}-lc-${var.metadata["appversion"]}-"
-  image_id        = "${data.aws_ami.amazon_linux.id}"
-  instance_type   = "${var.instance_type}"
-  security_groups = ["${aws_security_group.web.id}"]
-
-  //iam_instance_profile        = "${var.iam_role}" //Optional ami role assigned to the EC2 instance
+  name_prefix                 = "${var.metadata["appname"]}-${var.env}-lc-${var.metadata["appversion"]}-"
+  image_id                    = "${data.aws_ami.amazon_linux.id}"
+  instance_type               = "${var.instance_type}"
+  security_groups             = ["${aws_security_group.web.id}"]
   user_data                   = "${data.template_file.deploy_sh.rendered}"
   key_name                    = "${var.key_name}"
   associate_public_ip_address = "${var.associate_public_ip_address}"
@@ -50,14 +48,20 @@ resource "aws_autoscaling_group" "asg" {
   health_check_type         = "${var.health_check_type}"
   health_check_grace_period = "${var.health_check_grace_period}"
   default_cooldown          = "${var.default_cooldown}"
+  min_size                  = "${var.min_size}"
+  max_size                  = "${var.max_size}"
+  wait_for_elb_capacity     = "${var.min_size}"
+  desired_capacity          = "${var.desired_capacity}"
+  vpc_zone_identifier       = ["${data.aws_subnet_ids.vpc_subnets.ids}"]
 
-  min_size              = "${var.min_size}"
-  max_size              = "${var.max_size}"
-  wait_for_elb_capacity = "${var.min_size}"
+  //TAGS propagated to each EC2 instance
+  tags = "${list(
+    map("key", "Name", "value", "${var.metadata["appname"]}-${var.env}-ec2-${var.metadata["appversion"]}","propagate_at_launch", true)
+  )}"
 
-  desired_capacity = "${var.desired_capacity}"
-
-  vpc_zone_identifier = ["${data.aws_subnet_ids.vpc_subnets.ids}"]
+  lifecycle {
+    create_before_destroy = true
+  }
 
   # A maximum duration that Terraform should wait for ASG instances to be healthy before timing out.
   # wait_for_capacity_timeout = "20m"
@@ -77,14 +81,6 @@ resource "aws_autoscaling_group" "asg" {
   #   "GroupTerminatingInstances",
   #   "GroupTotalInstances",
   # ]
-
-  //TAGS propagated to each EC2 instance
-  tags = "${list(
-    map("key", "Name",          "value", "${var.metadata["appname"]}-${var.env}-ec2-${var.metadata["appversion"]}",         "propagate_at_launch", true)
-  )}"
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 #===========================================
@@ -95,17 +91,16 @@ resource "aws_elb" "elb" {
   subnets         = ["${data.aws_subnet_ids.vpc_subnets.ids}"]
   security_groups = ["${aws_security_group.web.id}"]
   tags            = "${merge(var.tags, map("Name", format("%s", var.elb_name)))}"
+  listener        = ["${var.elb_listener}"]
+  health_check    = ["${var.elb_health_check}"]
 
-  listener     = ["${var.elb_listener}"]
-  health_check = ["${var.elb_health_check}"]
-
-  # Variables to enabled SSL on your ELB
-  #ssl_certificate_id = "${data.aws_acm_certificate.cert.arn}"
-  cross_zone_load_balancing = "${var.cross_zone_load_balancing}"
-
+  cross_zone_load_balancing   = "${var.cross_zone_load_balancing}"
   connection_draining         = "${var.connection_draining}"
   connection_draining_timeout = "${var.connection_draining_timeout}"
   internal                    = "${var.internal}"
+
+  # Variables to enabled SSL on your ELB
+  #ssl_certificate_id = "${data.aws_acm_certificate.cert.arn}"
 }
 
 resource "aws_security_group" "web" {
