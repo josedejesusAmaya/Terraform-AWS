@@ -16,6 +16,9 @@ After this, you need to create a `variables.ini` file, following the same format
 To configure your AWS credentials run:
 `python3 awsconfig.py`
 
+After running this command, you need to run the following command:
+`source ./source.sh`
+
 To initialize a Terraform backend on a specific lesson run:
 `python3 awsconfig.py-i -l <lesson-folder>`
 
