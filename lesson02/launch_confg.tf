@@ -3,7 +3,7 @@ variable "instance_type" {
 }
 
 variable "key_name" {
-  default = "wz_interview_key"
+  default = "academy-ohio"
 }
 
 variable "associate_public_ip_address" {

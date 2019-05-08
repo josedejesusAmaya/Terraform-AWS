@@ -3,7 +3,7 @@ variable "instance_type" {
 }
 
 variable "key_name" {
-  default = "devops-interviews-us-east-2"
+  default = "academy-ohio"
 }
 
 variable "associate_public_ip_address" {
