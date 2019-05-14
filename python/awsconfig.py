@@ -81,6 +81,21 @@ def update_aws_config(profile, output, region):
     with open(config_file, 'w+') as new_config_file:
         config.write(new_config_file)
 
+def create_user_export_file(aws_profile, aws_region="us-east-2"):
+    """
+    Creates an export file for the AWS Profile and AWS Region env
+    variables.
+    :param aws_profile: AWS profile created in the .aws/config files
+    :param aws_region: AWS region where the resources will be created
+    :return:
+    """
+    os.umask(0)
+    file_path = "./export.sh"
+    with open(os.open(file_path, os.O_CREAT | os.O_WRONLY, 0o755), 'w') as efh:
+        efh.write("export AWS_PROFILE=" + aws_profile + "\n")
+        efh.write("export AWS_REGION=" + aws_region + "\n")
+    print('Now please run source ./source.sh')
+
 def get_aws_user(aws_key, aws_secret):
     """
     Gets aws user name depending on the aws access key id.
@@ -130,6 +145,7 @@ def main(variables):
     update_aws_credentials(prof, aws_key, aws_sec, '')
     update_aws_config(prof, 'json', 'us-east-2')
     print("Profile updated successfully")
+    create_user_export_file(prof)
     sys.exit(0)
 
 if __name__ == '__main__':
