@@ -20,6 +20,6 @@ After running this command, you need to run the following command:
 `source ./source.sh`
 
 To initialize a Terraform backend on a specific lesson run:
-`python3 awsconfig.py-i -l <lesson-folder>`
+`python3 awsconfig.py -i -l <lesson-folder>`
 
 Lesson accepted values are `lesson01`, `lesson02` or `lesson03`.
