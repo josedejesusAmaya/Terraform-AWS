@@ -1,25 +1,13 @@
-# Configuration Script
-This script helps you configure your AWS credentials into the requiered files and initialize terraform backends.
+# Configuration Steps
+These steps helps you configure your AWS credentials into the requiered files and initialize terraform backends.
 
-To run this script you need to configure first a virtual environment:
-
-```
-cd terraform-academy/python
-pip3 install virtualenv
-python3 -m venv .
-source bin/activate
-pip3 install -r requirements.txt
-```
-
-After this, you need to create a `variables.ini` file, following the same format as the `variables.ini.example`. Here, you'll add your AWS credentials, profile name and environment.
-
-To configure your AWS credentials run:
-`python3 awsconfig.py`
-
-After running this command, you need to run the following command:
-`source ./source.sh`
-
-To initialize a Terraform backend on a specific lesson run:
+1. Change directory to the root of your git repo
+2. Run the following command `docker run -it -v ${PWD}:/terraform wizelineacademy/wz_terraform:latest`
+3. Run `cd python`
+4. Create a `variables.ini` file, following the same format as the `variables.ini.example`. Here, you'll add your AWS credentials, profile name and environment.
+5. Configure your AWS credentials run: `python3 awsconfig.py`
+6. Export your AWS configuration as env variables `source ./export.sh`
+7. Initialize a Terraform backend on a specific lesson run:
 `python3 awsconfig.py -i -l <lesson-folder>`
 
 Lesson accepted values are `lesson01`, `lesson02` or `lesson03`.
