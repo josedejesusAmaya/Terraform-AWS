@@ -11,7 +11,7 @@ terraform {
 }
 
 module "environment" {
-  source = "../modules/elb_asg"
+  source = "modules/elb_asg"
 
   metadata = "${var.metadata}"
   env      = "${var.env}"

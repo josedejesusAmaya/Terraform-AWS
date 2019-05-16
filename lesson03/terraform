@@ -5,7 +5,7 @@
 [ -z $USER_N ] && echo "USER_N not defined" && exit 1
 
 
-VAR_FILE=terraform-$ENV.tfvars
+VAR_FILE=environments/terraform-$ENV.tfvars
 BACKEND_KEY=key=academy-user-$USER_N/terraform-academy/lesson3/$ENV-terraform.tfstate
 
 if [ ! -f $VAR_FILE ]; then
