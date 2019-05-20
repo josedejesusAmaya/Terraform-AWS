@@ -94,7 +94,7 @@ def create_user_export_file(aws_profile, aws_region="us-east-2"):
     with open(os.open(file_path, os.O_CREAT | os.O_WRONLY, 0o755), 'w') as efh:
         efh.write("export AWS_PROFILE=" + aws_profile + "\n")
         efh.write("export AWS_REGION=" + aws_region + "\n")
-    print('Now please run source ./source.sh')
+    print('Now please run source ./export.sh')
 
 def get_aws_user(aws_key, aws_secret):
     """
