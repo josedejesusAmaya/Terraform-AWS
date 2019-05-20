@@ -10,6 +10,7 @@
 .Python
 */pyvenv.cfg
 */*.ini
+*/export.sh
 
 # Local .terraform directories
 **/.terraform/*
