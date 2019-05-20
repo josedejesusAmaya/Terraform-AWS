@@ -65,8 +65,9 @@ signum(integer) - Returns -1 for negative numbers, 0 for 0 and 1 for positive nu
 @snapend
 ---
 ```
-element(split(",", var.r53_failover_policy), signum(count.index)) where the 0th index points to PRIMARY and 1st to FAILOVER
+element(split(",", var.r53_failover_policy), signum(count.index)) 
 ```
+@[1](where the 0th index points to PRIMARY and 1st to FAILOVER)
 ---
 ```
 resource "aws_instance" "web" {
