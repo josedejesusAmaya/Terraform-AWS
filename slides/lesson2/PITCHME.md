@@ -40,18 +40,27 @@ resource "aws_instance" "example" {
 Embedded within strings in Terraform, whether you're using the Terraform syntax or JSON syntax, you can interpolate other values. These interpolations are wrapped in ${}, such as ${var.foo}.
 ---
 @title[Agenda]
-@snap[west span-85]
+@snap[north-west span-85]
 @ul[spaced text-black]
 - Attributes of other resources: TYPE.NAME.ATTRIBUTE
 - Attributes of a data source: data.TYPE.NAME.ATTRIBUTE
 - conditionals (CONDITION ? TRUEVAL : FALSEVAL)
-- built in functions: element(list, index), file(path),length(list), list(items, ...)
+- built in functions: 
+  - element(list, index)
+  - file(path)
+  - length(list)
+  - list(items, ...)
 @ulend
 @snapend
 ---
-@snap[west span-85]
+@snap[north-west span-85]
 ### Examples
-signum(integer) - Returns -1 for negative numbers, 0 for 0 and 1 for positive numbers. This function is useful when you need to set a value for the first resource and a different value for the rest of the resources. Example: element(split(",", var.r53_failover_policy), signum(count.index)) where the 0th index points to PRIMARY and 1st to FAILOVER
+signum(integer) - Returns -1 for negative numbers, 0 for 0 and 1 for positive numbers. This function is useful when you need to set a value for the first resource and a different value for the rest of the resources. Example: 
+@snapend
+@snap[west span-85]
+```
+element(split(",", var.r53_failover_policy), signum(count.index)) where the 0th index points to PRIMARY and 1st to FAILOVER
+```
 @snapend
 
 ---
@@ -108,7 +117,7 @@ resource "aws_route53_record" "example" {
 ```
 @[1-4](if create_eip)
 @[6-13](else)
----?code=slides/lesson2/main_hard_code.tf&title=Terraform Main
+---?code=slides/lesson2/solution/main_hard_code.tf&title=Terraform Main
 @snap[span-90]
 @[1-11](provider)
 @[17-22](setup default vpc)
