@@ -50,11 +50,11 @@ Embedded within strings in Terraform, whether you're using the Terraform syntax 
 ---
 @title[Agenda]
 @snap[west span-85]
-- built in functions: 
-  - element(list, index)
-  - file(path)
-  - length(list)
-  - list(items, ...)
+### built in functions: 
+- element(list, index)
+- file(path)
+- length(list)
+- list(items, ...)
 @ulend
 @snapend
 ---
