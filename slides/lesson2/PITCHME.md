@@ -61,7 +61,7 @@ Embedded within strings in Terraform, whether you're using the Terraform syntax 
 ---
 @snap[west span-85]
 ### Examples
-signum(integer) - Returns -1 for negative numbers, 0 for 0 and 1 for positive numbers. This function is useful when you need to set a value for the first resource and a different value for the rest of the resources. Example: 
+signum(integer) - Returns -1 for negative numbers, 0 for 0 and 1 for positive numbers. This function is useful when you need to set a value for the first resource and a different value for the rest of the resources. 
 @snapend
 ---
 ```
