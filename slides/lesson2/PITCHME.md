@@ -25,7 +25,6 @@ for i = 0; i < 3; i++ {
   }  
 }
 ```
-
 ---
 ```
 resource "aws_instance" "example" {
@@ -74,7 +73,6 @@ resource "aws_instance" "web" {
   subnet = "${var.env == "production" ? var.prod_subnet : var.dev_subnet}"
 }
 ```
-
 ---
 ```
 resource "aws_instance" "example" {
@@ -122,6 +120,10 @@ resource "aws_route53_record" "example" {
 ```
 @[1-4](if create_eip)
 @[6-13](else)
+---?color=var(--color-light-gray-2)
+@title[What is Terraform?]
+### Hands on work
+
 ---?code=slides/lesson2/solution/main_hard_code.tf&title=Terraform Main
 @snap[span-90]
 @[1-11](provider)
