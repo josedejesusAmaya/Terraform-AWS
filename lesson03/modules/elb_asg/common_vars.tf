@@ -1,5 +1,5 @@
 variable "metadata" {
-  type        = "map"
+  type        = map(string)
   description = "appname is used as the stack id, appversion is the nginx docker tag"
 
   default = {
@@ -14,7 +14,7 @@ variable "env" {
 }
 
 variable "tags" {
-  type = "map"
+  type = map(string)
 
   default = {
     Name     = "sample-app"
@@ -25,3 +25,4 @@ variable "tags" {
     appid    = "sample-app-webapp"
   }
 }
+

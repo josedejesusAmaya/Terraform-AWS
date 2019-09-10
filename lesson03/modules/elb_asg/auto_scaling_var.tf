@@ -25,3 +25,4 @@ variable "metrics_granularity" {
 variable "health_check_type" {
   default = "ELB"
 }
+

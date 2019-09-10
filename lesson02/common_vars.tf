@@ -17,11 +17,11 @@ variable "env" {
 variable "domain" {
   default     = "academy.wizeline.dev"
   description = "The domain name to use"
-  type        = "string"
+  type        = string
 }
 
 variable "tags" {
-  type = "map"
+  type = map(string)
 
   default = {
     Name     = "sample-app"
@@ -33,8 +33,10 @@ variable "tags" {
   }
 }
 
-data "aws_caller_identity" "current" {}
+data "aws_caller_identity" "current" {
+}
 
 data "aws_route53_zone" "current" {
-  name = "${var.domain}"
+  name = var.domain
 }
+

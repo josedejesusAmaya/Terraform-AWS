@@ -21,16 +21,18 @@ data "aws_ami" "amazon_linux" {
 }
 
 data "template_file" "user_data" {
-  template = "${file("${path.module}/templates/user_data.sh.tpl")}"
+  template = file("${path.module}/templates/user_data.sh.tpl")
 
   vars = {
-    docker_image = "${var.app_name}"
-    docker_tag   = "${var.app_version}"
+    docker_image = var.app_name
+    docker_tag   = var.app_version
   }
 }
 
-data "aws_caller_identity" "current" {}
+data "aws_caller_identity" "current" {
+}
 
 data "aws_route53_zone" "current" {
-  name = "${var.domain}"
+  name = var.domain
 }
+

@@ -1,6 +1,6 @@
 // Configure AWS Cloud provider
 provider "aws" {
-  region = "${var.aws_region}"
+  region = var.aws_region
 }
 
 terraform {
@@ -11,9 +11,10 @@ terraform {
 }
 
 module "environment" {
-  source = "modules/elb_asg"
+  source = "./modules/elb_asg"
 
-  metadata = "${var.metadata}"
-  env      = "${var.env}"
-  tags     = "${var.tags}"
+  metadata = var.metadata
+  env      = var.env
+  tags     = var.tags
 }
+

@@ -1,7 +1,8 @@
-variable "aws_region" {}
+variable "aws_region" {
+}
 
 variable "metadata" {
-  type        = "map"
+  type        = map(string)
   description = "appname is used as the stack identyfier, appversion is the nginx docker tag"
 
   default = {
@@ -10,8 +11,10 @@ variable "metadata" {
   }
 }
 
-variable "env" {}
+variable "env" {
+}
 
 variable "tags" {
-  type = "map"
+  type = map(string)
 }
+

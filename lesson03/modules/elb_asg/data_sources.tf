@@ -1,6 +1,6 @@
 //list of subnets
 data "aws_subnet_ids" "vpc_subnets" {
-  vpc_id = "${aws_default_vpc.default.id}"
+  vpc_id = aws_default_vpc.default.id
 }
 
 data "aws_ami" "amazon_linux" {
@@ -26,11 +26,12 @@ data "aws_ami" "amazon_linux" {
 }
 
 data "template_file" "deploy_sh" {
-  template = "${file("${path.module}/userdata.sh")}"
+  template = file("${path.module}/userdata.sh")
 
-  vars {
-    docker_tag  = "${local.appversion}"
-    ENVIRONMENT = "${var.env}"
+  vars = {
+    docker_tag  = local.appversion
+    ENVIRONMENT = var.env
     HOSTNAME    = "${local.app_name}-ec2-${local.appversion}"
   }
 }
+
