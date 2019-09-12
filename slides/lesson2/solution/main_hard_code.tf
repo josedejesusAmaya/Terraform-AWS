@@ -20,32 +20,40 @@ resource "aws_default_vpc" "default" {
   }
 }
 
-
 #===========================================
 #  Elastic Load Balancer
 #===========================================
 resource "aws_elb" "elb" {
-  name                        = "sample-app-elb-dev"
-  subnets                     = ["${data.aws_subnet_ids.vpc_subnets.ids}"]
-  security_groups             = ["${aws_security_group.web.id}"]
-  tags                        = "${merge(var.tags, map("Name", format("%s", "sample-app-elb-dev")))}"
-  listener                    = [
+  name = "sample-app-elb-dev"
+  # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to
+  # force an interpolation expression to be interpreted as a list by wrapping it
+  # in an extra set of list brackets. That form was supported for compatibility in
+  # v0.11, but is no longer supported in Terraform v0.12.
+  #
+  # If the expression in the following list itself returns a list, remove the
+  # brackets to avoid interpretation as a list of lists. If the expression
+  # returns a single list item then leave it as-is and remove this TODO comment.
+  subnets         = [data.aws_subnet_ids.vpc_subnets.ids]
+  security_groups = [aws_security_group.web.id]
+  tags = merge(
+    var.tags,
     {
-      instance_port     = "80"
-      instance_protocol = "HTTP"
-      lb_port           = "80"
-      lb_protocol       = "HTTP"
+      "Name" = format("%s", "sample-app-elb-dev")
     },
-  ]
-  health_check                = [
-    {
-      target              = "HTTP:80/"
-      interval            = 30
-      healthy_threshold   = 2
-      unhealthy_threshold = 2
-      timeout             = 5
-    },
-  ]
+  )
+  listener {
+    instance_port     = "80"
+    instance_protocol = "HTTP"
+    lb_port           = "80"
+    lb_protocol       = "HTTP"
+  }
+  health_check {
+    target              = "HTTP:80/"
+    interval            = 30
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 5
+  }
   cross_zone_load_balancing   = "true"
   connection_draining         = "true"
   connection_draining_timeout = 100
@@ -57,14 +65,14 @@ resource "aws_elb" "elb" {
 #===========================================
 
 resource "aws_route53_record" "dns_web" {
-  zone_id = "${data.aws_route53_zone.current.zone_id}"
+  zone_id = data.aws_route53_zone.current.zone_id
   name    = "${data.aws_caller_identity.current.user_id}.academy.wizeline.dev"
   type    = "A"
   ttl     = 300
 
   alias {
-    name                   = "${aws_elb.elb.dns_name}"
-    zone_id                = "${aws_elb.elb.zone_id}"
+    name                   = aws_elb.elb.dns_name
+    zone_id                = aws_elb.elb.zone_id
     evaluate_target_health = false
   }
 }
@@ -75,7 +83,7 @@ resource "aws_route53_record" "dns_web" {
 resource "aws_security_group" "web" {
   name_prefix = "web"
   description = "Allow web traffic"
-  vpc_id      = "${aws_default_vpc.default.id}"
+  vpc_id      = aws_default_vpc.default.id
 
   ingress {
     from_port   = 22
@@ -106,8 +114,8 @@ resource "aws_launch_configuration" "lc" {
   name_prefix                 = "sample-app-dev-lc-latest-"
   image_id                    = "ami-02bcbb802e03574ba"
   instance_type               = "t2.micro"
-  security_groups             = ["${aws_security_group.web.id}"]
-  user_data                   = "${data.template_file.deploy_sh.rendered}"
+  security_groups             = [aws_security_group.web.id]
+  user_data                   = data.template_file.deploy_sh.rendered
   key_name                    = "academy-ohio"
   associate_public_ip_address = false
 
@@ -120,10 +128,18 @@ resource "aws_launch_configuration" "lc" {
 #  Auto scaling Group
 #===========================================
 resource "aws_autoscaling_group" "asg" {
-  name_prefix               = "sample-app-dev-asg-latest-"
-  launch_configuration      = "${aws_launch_configuration.lc.name}"
-  availability_zones        = ["${data.aws_availability_zones.available.zone_ids}"]
-  load_balancers            = ["${aws_elb.elb.id}"]
+  name_prefix          = "sample-app-dev-asg-latest-"
+  launch_configuration = aws_launch_configuration.lc.name
+  # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to
+  # force an interpolation expression to be interpreted as a list by wrapping it
+  # in an extra set of list brackets. That form was supported for compatibility in
+  # v0.11, but is no longer supported in Terraform v0.12.
+  #
+  # If the expression in the following list itself returns a list, remove the
+  # brackets to avoid interpretation as a list of lists. If the expression
+  # returns a single list item then leave it as-is and remove this TODO comment.
+  availability_zones        = [data.aws_availability_zones.available.zone_ids]
+  load_balancers            = [aws_elb.elb.id]
   health_check_type         = "ELB"
   health_check_grace_period = 60
   default_cooldown          = 60
@@ -131,14 +147,27 @@ resource "aws_autoscaling_group" "asg" {
   max_size                  = 1
   wait_for_elb_capacity     = 1
   desired_capacity          = 1
-  vpc_zone_identifier       = ["${data.aws_subnet_ids.vpc_subnets.ids}"]
+  # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to
+  # force an interpolation expression to be interpreted as a list by wrapping it
+  # in an extra set of list brackets. That form was supported for compatibility in
+  # v0.11, but is no longer supported in Terraform v0.12.
+  #
+  # If the expression in the following list itself returns a list, remove the
+  # brackets to avoid interpretation as a list of lists. If the expression
+  # returns a single list item then leave it as-is and remove this TODO comment.
+  vpc_zone_identifier = [data.aws_subnet_ids.vpc_subnets.ids]
 
   //TAGS propagated to each EC2 instance
-  tags = "${list(
-    map("key", "Name", "value", "sample-app-dev-ec2-latest","propagate_at_launch", true)
-  )}"
+  tags = [
+    {
+      "key"                 = "Name"
+      "value"               = "sample-app-dev-ec2-latest"
+      "propagate_at_launch" = true
+    },
+  ]
 
   lifecycle {
     create_before_destroy = true
   }
 }
+
