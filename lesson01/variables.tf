@@ -4,7 +4,7 @@ variable "tags" {
     Service    = "web"
     Customer   = "Stark Industries"
     Owner      = "Wizeline"
-    Maintainer = "devops@wizeline.com"
+    Maintainer = "sre@wizeline.com"
   }
 
   description = "Tags to set in the resources"
