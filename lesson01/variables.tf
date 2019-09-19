@@ -4,7 +4,7 @@ variable "tags" {
     Service    = "web"
     Customer   = "Stark Industries"
     Owner      = "Wizeline"
-    Maintainer = "devops@wizeline.com"
+    Maintainer = "sre@wizeline.com"
   }
 
   description = "Tags to set in the resources"
@@ -23,9 +23,9 @@ variable "app_version" {
   type        = string
 }
 
-variable "domain" {
-  default     = "academy.wizeline.dev"
-  description = "The domain name to use"
-  type        = string
-}
-
+# Only uncommend if you have a hosted zone in Route53
+# variable "domain" {
+#   default     = "mydomain.com"
+#   description = "The domain name to use"
+#   type        = string
+# }

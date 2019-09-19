@@ -1,17 +1,21 @@
 #!/bin/bash
-#Update installed pacakges
+#
+# Installs Docker, and runs a container
+
+# Updates packages
 yum update -y
 
-#Install docker
+# Installs Docker
 yum install -y docker
 
-#Start Docker
+# Starts Docker service
 service docker start
 
-#Add ec2-user to the docker group
-#All commands here are executed as super admin
-#but still, let's add the ec2-user to the docker group
-usermod -a -G docker ec2-user 
+# Allows ec2-user to execute Docker
+usermod -a -G docker ec2-user
 
-#Run the nginx 
+# Runs a Docker container with image ${docker_image}:${docker_tag}
+# - runs container in the background
+# - exposes container's port 80 in the host's port 80
+# - restarts container if it stops
 docker run -d -p 80:80 --restart=always ${docker_image}:${docker_tag}

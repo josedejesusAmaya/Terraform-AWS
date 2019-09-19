@@ -1,12 +1,14 @@
-// Configure AWS Cloud provider
+# Provider for AWS
 provider "aws" {
-  region = "us-east-2"
+  region = "us-east-1"
 }
 
-terraform {
-  backend "s3" {
-    bucket = "wizeline-academy-terraform"
-    region = "us-east-2"
-  }
-}
+# If you prefer, you can store the Terraform state in S3
+# https://www.terraform.io/docs/backends/types/s3.html
+# terraform {
+#   backend "s3" {
+#     region = "us-east-1"
+#   }
+# }
 
+# Add below your code
