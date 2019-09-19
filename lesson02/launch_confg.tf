@@ -1,9 +1,5 @@
 variable "instance_type" {
-  default = "t2.micro"
-}
-
-variable "key_name" {
-  default = "academy-ohio"
+  default = "m4.large"
 }
 
 variable "associate_public_ip_address" {

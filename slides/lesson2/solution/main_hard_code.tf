@@ -3,12 +3,12 @@ provider "aws" {
   region = "us-east-2"
 }
 
-terraform {
-  backend "s3" {
-    bucket = "wizeline-academy-terraform"
-    region = "us-east-2"
-  }
-}
+#`:`:terraform {
+#  backend "s3" {
+#    bucket = "wizeline-academy-terraform"
+#    region = "us-east-2"
+#  }
+#}
 
 #--------------------------------------------------------------
 # default VPC
@@ -25,15 +25,7 @@ resource "aws_default_vpc" "default" {
 #===========================================
 resource "aws_elb" "elb" {
   name = "sample-app-elb-dev"
-  # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to
-  # force an interpolation expression to be interpreted as a list by wrapping it
-  # in an extra set of list brackets. That form was supported for compatibility in
-  # v0.11, but is no longer supported in Terraform v0.12.
-  #
-  # If the expression in the following list itself returns a list, remove the
-  # brackets to avoid interpretation as a list of lists. If the expression
-  # returns a single list item then leave it as-is and remove this TODO comment.
-  subnets         = [data.aws_subnet_ids.vpc_subnets.ids]
+  subnets         = data.aws_subnet_ids.vpc_subnets.ids
   security_groups = [aws_security_group.web.id]
   tags = merge(
     var.tags,
@@ -64,11 +56,14 @@ resource "aws_elb" "elb" {
 #  Route 53 Record
 #===========================================
 
+resource "aws_route53_zone" "tf-workshop" {
+  name = var.domain
+}
+
 resource "aws_route53_record" "dns_web" {
-  zone_id = data.aws_route53_zone.current.zone_id
-  name    = "${data.aws_caller_identity.current.user_id}.academy.wizeline.dev"
+  zone_id = aws_route53_zone.tf-workshop.zone_id
+  name    = "my-lb-example.terraform-workshop.com.mx"
   type    = "A"
-  ttl     = 300
 
   alias {
     name                   = aws_elb.elb.dns_name
@@ -110,14 +105,18 @@ resource "aws_security_group" "web" {
 #--------------------------------------------------------------
 # Launch configuration
 #--------------------------------------------------------------
+
+
+
 resource "aws_launch_configuration" "lc" {
   name_prefix                 = "sample-app-dev-lc-latest-"
   image_id                    = "ami-02bcbb802e03574ba"
-  instance_type               = "t2.micro"
+  instance_type               = "m4.large"
   security_groups             = [aws_security_group.web.id]
   user_data                   = data.template_file.deploy_sh.rendered
-  key_name                    = "academy-ohio"
   associate_public_ip_address = false
+  spot_price                  = "0.02"
+
 
   lifecycle {
     create_before_destroy = true
@@ -130,15 +129,7 @@ resource "aws_launch_configuration" "lc" {
 resource "aws_autoscaling_group" "asg" {
   name_prefix          = "sample-app-dev-asg-latest-"
   launch_configuration = aws_launch_configuration.lc.name
-  # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to
-  # force an interpolation expression to be interpreted as a list by wrapping it
-  # in an extra set of list brackets. That form was supported for compatibility in
-  # v0.11, but is no longer supported in Terraform v0.12.
-  #
-  # If the expression in the following list itself returns a list, remove the
-  # brackets to avoid interpretation as a list of lists. If the expression
-  # returns a single list item then leave it as-is and remove this TODO comment.
-  availability_zones        = [data.aws_availability_zones.available.zone_ids]
+  # availability_zones        = data.aws_availability_zones.available.zone_ids
   load_balancers            = [aws_elb.elb.id]
   health_check_type         = "ELB"
   health_check_grace_period = 60
@@ -147,15 +138,7 @@ resource "aws_autoscaling_group" "asg" {
   max_size                  = 1
   wait_for_elb_capacity     = 1
   desired_capacity          = 1
-  # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to
-  # force an interpolation expression to be interpreted as a list by wrapping it
-  # in an extra set of list brackets. That form was supported for compatibility in
-  # v0.11, but is no longer supported in Terraform v0.12.
-  #
-  # If the expression in the following list itself returns a list, remove the
-  # brackets to avoid interpretation as a list of lists. If the expression
-  # returns a single list item then leave it as-is and remove this TODO comment.
-  vpc_zone_identifier = [data.aws_subnet_ids.vpc_subnets.ids]
+  vpc_zone_identifier = data.aws_subnet_ids.vpc_subnets.ids
 
   //TAGS propagated to each EC2 instance
   tags = [
