@@ -21,8 +21,8 @@
 for i = 0; i < 3; i++ {
   resource "aws_instance" "example" {
     ami = "ami-2d39803a"
-    instance_type = "t2.micro"
-  }  
+    instance_type = "m4.large"
+  }
 }
 ```
 ---
@@ -30,7 +30,7 @@ for i = 0; i < 3; i++ {
 resource "aws_instance" "example" {
   count = 3
   ami = "ami-2d39803a"
-  instance_type = "t2.micro"
+  instance_type = "m4.large"
 }
 ```
 @[1-5](example)
@@ -78,7 +78,7 @@ resource "aws_instance" "web" {
 resource "aws_instance" "example" {
   count = 3
   ami = "ami-2d39803a"
-  instance_type = "t2.micro"
+  instance_type = "m4.large"
   availability_zone = "${element(var.azs, count.index)}"
   tags {
     Name = "example-${count.index}"
