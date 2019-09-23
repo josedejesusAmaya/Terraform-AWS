@@ -6,7 +6,7 @@ provider "aws" {
 # terraform {
 #  backend "s3" {
 #    bucket = "your-bucket-name-here"
-#    region = "us-east-1"
+#    region = "us-east-2"
 #  }
 #}
 
