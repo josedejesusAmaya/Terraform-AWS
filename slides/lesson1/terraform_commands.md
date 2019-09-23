@@ -12,7 +12,7 @@ provider "aws" {
 
 resource "aws_instance" "web" {
   ami           = "ami-02bcbb802e03574ba"
-  instance_type = "t2.micro"
+  instance_type = "m4.large"
 }
 ```
 @[1-3](provider)

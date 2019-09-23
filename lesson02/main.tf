@@ -1,6 +1,6 @@
 // Configure AWS Cloud provider
 provider "aws" {
-  region = "${var.aws_region}"
+  region = var.aws_region
 }
 
 terraform {
@@ -9,3 +9,4 @@ terraform {
     region = "us-east-2"
   }
 }
+

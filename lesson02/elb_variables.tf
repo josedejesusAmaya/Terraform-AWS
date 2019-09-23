@@ -19,24 +19,21 @@ variable "elb_name" {
 }
 
 variable "elb_listener" {
-  default = [
-    {
-      instance_port     = "80"
+  default = {
+      instance_port     = 80
       instance_protocol = "HTTP"
-      lb_port           = "80"
+      lb_port           = 80
       lb_protocol       = "HTTP"
-    },
-  ]
+  }
 }
 
 variable "elb_health_check" {
-  default = [
-    {
+  default = {
       target              = "HTTP:80/"
       interval            = 30
       healthy_threshold   = 2
       unhealthy_threshold = 2
       timeout             = 5
-    },
-  ]
+  }
 }
+
