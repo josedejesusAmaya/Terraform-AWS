@@ -2,7 +2,7 @@
 # https://aws.amazon.com/amazon-linux-2/
 data "aws_ami" "amazon_linux" {
   most_recent = true
-  owners = ["amazon"]
+  owners      = ["amazon"]
 
   filter {
     name = "name"
@@ -29,11 +29,9 @@ data "template_file" "user_data" {
   }
 }
 
-# Gets account ID
-data "aws_caller_identity" "current" {
-}
+data "aws_caller_identity" "current" {}
 
-# Only uncommend if you have a hosted zone in Route53
+# Uncomment if you have a hosted zone on your AWS account
 # Gets hosted zone ID
 # data "aws_route53_zone" "current" {
 #   name = var.domain

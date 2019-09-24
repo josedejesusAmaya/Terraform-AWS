@@ -66,7 +66,18 @@ variable "asg_num_of_instances" {
 
 ---
 
-## Lists
+## Boolean
+```
+variable "create_sg_for_instance" {
+  type        = bool
+  description = "A true or false value"
+  default = true
+}
+```
+
+---
+
+## Lists or Tuples
 
 Lists are defined either explicitly or implicitly
 
@@ -78,13 +89,13 @@ variable "cidrs" {
 
 # explicitly
 variable "cidrs" { 
-  type = "list" 
+  type = list(string) 
 }
 ```
 
 ---
 
-## Maps
+## Maps or Objects
 
 ```
 variable "amis" {
@@ -92,6 +103,21 @@ variable "amis" {
   default = {
     "us-east-1" = "ami-b374d5a5"
     "us-west-2" = "ami-4b32be2b"
+  }
+}
+```
+
+```
+variable "docker_ports" {
+  type = object({
+    internal = number
+    external = number
+    protocol = string
+  })
+  default = {
+    internal = 8300
+    external = 8300
+    protocol = "tcp"
   }
 }
 ```

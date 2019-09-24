@@ -23,7 +23,14 @@ variable "app_version" {
   type        = string
 }
 
-# Only uncommend if you have a hosted zone in Route53
+variable "instance_key" {
+  default     = "academy-test-lesson-01"
+  description = "AWS key created to access the instance via ssh"
+  type        = string
+}
+
+# Only uncomment if you have a hosted zone in Route53 and a domain
+# Change the default value to your domain if you have one
 # variable "domain" {
 #   default     = "mydomain.com"
 #   description = "The domain name to use"

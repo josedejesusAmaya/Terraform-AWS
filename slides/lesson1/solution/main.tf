@@ -1,13 +1,6 @@
-// Configure AWS Cloud provider
+# Configure AWS Cloud provider
 provider "aws" {
   region = "us-east-2"
-}
-
-terraform {
-  backend "s3" {
-    bucket = "wizeline-academy-terraform"
-    region = "us-east-2"
-  }
 }
 
 resource "aws_default_vpc" "default" {
@@ -46,7 +39,7 @@ resource "aws_security_group" "web" {
 resource "aws_instance" "web" {
   ami           = data.aws_ami.amazon_linux.id
   instance_type = "m4.large"
-  key_name      = "academy-ohio"
+  key_name      = var.instance_key
 
   provisioner "local-exec" {
     command = "bash -c 'MAX=10; C=0; until curl -s -o /dev/null ${aws_instance.web.public_dns}; do [ $C -eq $MAX ] && { exit 1; } || sleep 10; ((C++)); done;' || false"
@@ -64,11 +57,11 @@ resource "aws_instance" "web" {
   )
 }
 
-resource "aws_route53_record" "dns_web" {
-  zone_id = data.aws_route53_zone.current.zone_id
-  name    = "${data.aws_caller_identity.current.user_id}.${var.domain}"
-  type    = "A"
-  ttl     = 300
-  records = [aws_instance.web.public_ip]
-}
-
+# Uncomment this if you have a hosted zone in your AWS account
+# resource "aws_route53_record" "dns_web" {
+#   zone_id = data.aws_route53_zone.current.zone_id
+#   name    = "${data.aws_caller_identity.current.user_id}.${var.domain}"
+#   type    = "A"
+#   ttl     = 300
+#   records = [aws_instance.web.public_ip]
+# }
