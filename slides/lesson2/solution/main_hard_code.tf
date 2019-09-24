@@ -3,13 +3,6 @@ provider "aws" {
   region = "us-east-2"
 }
 
-#`:`:terraform {
-#  backend "s3" {
-#    bucket = "wizeline-academy-terraform"
-#    region = "us-east-2"
-#  }
-#}
-
 #--------------------------------------------------------------
 # default VPC
 # https://www.terraform.io/docs/providers/aws/r/default_vpc.html
@@ -105,9 +98,6 @@ resource "aws_security_group" "web" {
 #--------------------------------------------------------------
 # Launch configuration
 #--------------------------------------------------------------
-
-
-
 resource "aws_launch_configuration" "lc" {
   name_prefix                 = "sample-app-dev-lc-latest-"
   image_id                    = "ami-02bcbb802e03574ba"
@@ -153,4 +143,3 @@ resource "aws_autoscaling_group" "asg" {
     create_before_destroy = true
   }
 }
-

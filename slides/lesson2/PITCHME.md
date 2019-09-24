@@ -126,15 +126,14 @@ resource "aws_route53_record" "example" {
 
 ---?code=slides/lesson2/solution/main_hard_code.tf&title=Terraform Main
 @snap[span-90]
-@[1-11](provider)
-@[17-22](setup default vpc)
-@[27-39](Load Balancer)
-@[40-53](Load Balancer 2)
-@[59-70](dns record)
-@[75-78](security group)
-@[80-85](security group ingress)
-@[94-99](security group egress)
-@[105-117](launch configuration)
-@[122-132](Autoscaling part 2)
-@[133-144](Autoscaling metrics)
-
+@[1-4](provider)
+@[10-14](setup default vpc)
+@[19-34](Load Balancer part 1)
+@[35-46](Load Balancer part 2)
+@[52-66](dns record)
+@[71-75](security group)
+@[76-89](security group ingress)
+@[90-96](security group egress)
+@[101-114](launch configuration)
+@[119-132](Autoscaling part 1)
+@[133-145](Autoscaling part 2)
