@@ -10,33 +10,45 @@ The set of files used to describe infrastructure in Terraform is simply known as
 @title[Terraform core commands]
 @snap[west span-85]
 ### Terraform core commands
-@ul[spaced text-black]
-- init
+
+---
+@title[init]
+@title[apply]
+@title[destroy]
+@title[fmt]
+@title[validate]
+
+Init:
 ```bash
   terraform init
 ```
 
-- apply
+Apply:
 ```bash
   terraform apply
 ```
 
-- destroy
+Destroy:
 ```bash
   terraform destroy
 ```
 
-- fmt
+Fmt:
 ```bash
   terraform fmt
 ```
 
-- validate
+Validate:
 ```bash
   terraform validate
 ```
-@ulend
 @snapend
+
+@[1-2](init)
+@[3-4](apply)
+@[5-6](destroy)
+@[7-8](fmt)
+@[9-10](validate)
 
 ---
 @title[Terraform Resource Blocks]
