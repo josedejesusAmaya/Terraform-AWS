@@ -18,37 +18,25 @@ The set of files used to describe infrastructure in Terraform is simply known as
 @title[fmt]
 @title[validate]
 
-Init:
+
 ```bash
   terraform init
-```
 
-Apply:
-```bash
   terraform apply
-```
 
-Destroy:
-```bash
   terraform destroy
-```
 
-Fmt:
-```bash
   terraform fmt
-```
 
-Validate:
-```bash
   terraform validate
 ```
 @snapend
 
-@[1-2](init)
-@[3-4](apply)
-@[5-6](destroy)
-@[7-8](fmt)
-@[9-10](validate)
+@[1](init)
+@[2](apply)
+@[3](destroy)
+@[4](fmt)
+@[5](validate)
 
 ---
 @title[Terraform Resource Blocks]
