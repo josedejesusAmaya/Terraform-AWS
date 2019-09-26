@@ -3,7 +3,7 @@
 ### Hands on work
 
 ---
-@img(../assets/img/lesson01-diagram.png)
+![Architecture Diagram](assets/img/lesson01-diagram.png)
 
 ---?code=slides/lesson1/solution/main_hard_code.tf&title=Terraform Main
 @snap[span-90]
