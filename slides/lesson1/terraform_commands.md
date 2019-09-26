@@ -10,6 +10,7 @@ The set of files used to describe infrastructure in Terraform is simply known as
 @title[What is Terraform?]
 @snap[west span-85]
 ### Terraform core commands
+
 @ul[spaced text-black]
 - init.
 - plan.
@@ -31,6 +32,6 @@ resource "aws_instance" "web" {
 }
 ```
 @[1-3](provider)
-
+---
 @ulend
 @snapend
