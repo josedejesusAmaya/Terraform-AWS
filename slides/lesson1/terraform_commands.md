@@ -13,13 +13,18 @@ The set of files used to describe infrastructure in Terraform is simply known as
 ```bash
   terraform init
 ```
-@ul[spaced text-black]
-- bash init
-- ``` bash plan```
-- apply.
-- destroy.
-- fmt.
-@ulend
+```bash
+  terraform apply
+```
+```bash
+  terraform destroy
+```
+```bash
+  terraform fmt
+```
+```bash
+  terraform validate
+```
 @snapend
 
 ---
