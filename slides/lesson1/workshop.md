@@ -9,6 +9,6 @@
 @[19-29](security group)
 @[30-46](security group ingress)
 @[47-60](security group egress)
-@[61-80](EC2 instance)
-@[82-96](EC2 instance)
+@[61-78](EC2 instance)
+@[78-96](EC2 instance)
 @[98-112](DNS record)
