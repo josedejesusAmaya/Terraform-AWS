@@ -10,10 +10,11 @@ The set of files used to describe infrastructure in Terraform is simply known as
 @title[What is Terraform?]
 @snap[west span-85]
 ### Terraform core commands
-@ul[spaced text-black]
-- ```bash
-  init
+```bash
+  terraform init
 ```
+@ul[spaced text-black]
+- bash init
 - ``` bash plan```
 - apply.
 - destroy.
