@@ -6,18 +6,14 @@ version: 2
     - run:
         name: "Check: Validate tf files (terraform validate)"
         command: |
-            find . -type f -name "*.tf" ! -path "./provision/*" -exec dirname {} \; |
-            sort -u | 
-            while read; do (
-              cd "${REPLY}" &&
-              [ -f main_hard_code.tf ] &&
-              mv main_hard_code.tf main_hard_code.tf-old} || echo "no hardcode" &&
+            for num in 1 2; do (
+              cd lesson0${num} &&
               terraform init &&
               terraform validate -json &&
-              [ -f main_hard_code.tf-old ] &&
-              (mv main.tf main.tf-old} &&
-              mv main_hard_code.tf-old main_hard_code.tf &&
-              terraform validate -json) || echo "no hardcode" &&
+              cp ../slides/lesson${num}/solution/main.tf main.tf
+              terraform validate -json &&
+              cp -f ../slides/lesson${num}/solution/main_hard_code.tf main.tf
+              terraform validate -json &&
               cd - &&
               echo "√ ${REPLY}") || exit 1
             done
@@ -34,7 +30,7 @@ version: 2
         name: "Install: tflint"
         command: |
             apk update
-            apk add jq wget
+            apk add jq wget curl
             # Get latest version of tflint (v0.7.0 test if still need to exclude modules. Any other changes)
             pkg_arch=linux_amd64
             dl_url=$(curl -s https://api.github.com/repos/wata727/tflint/releases/latest | jq -r ".assets[] | select(.name | test(\"${pkg_arch}\")) | .browser_download_url")
@@ -53,7 +49,7 @@ version: 2
             else
               {
               echo -e "config {\ndeep_check = false\nignore_module = {"
-              for module in $(grep -h '[^a-zA-Z]source[ =]' *.tf | sed -r 's/.*=\s+//' | sort -u); do
+              for module in $(grep -h '[^a-zA-Z]source[ =]' lesson*/*.tf | sed -r 's/.*=\s+//' | sort -u); do
                 # if not ^"../
                 echo "${module} = true"
               done
