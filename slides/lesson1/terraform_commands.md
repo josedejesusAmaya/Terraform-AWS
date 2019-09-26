@@ -29,11 +29,11 @@ The set of files used to describe infrastructure in Terraform is simply known as
 
   terraform validate
 ```
-@[1](init)
-@[3](apply)
-@[5](destroy)
-@[7](fmt)
-@[9](validate)
+@[1-2](init)
+@[3-4](apply)
+@[5-6](destroy)
+@[7-8](fmt)
+@[9-10](validate)
 @snapend
 
 ---
