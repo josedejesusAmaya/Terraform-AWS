@@ -53,9 +53,7 @@ resource "aws_instance" "web" {
   }
 
   user_data = data.template_file.user_data.rendered
-
   vpc_security_group_ids = [aws_security_group.web.id]
-
   tags = merge(
     var.tags,
     {
