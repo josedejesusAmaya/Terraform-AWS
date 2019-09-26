@@ -29,13 +29,12 @@ The set of files used to describe infrastructure in Terraform is simply known as
 
   terraform validate
 ```
-@snapend
-
 @[1](init)
 @[3](apply)
 @[5](destroy)
 @[7](fmt)
 @[9](validate)
+@snapend
 
 ---
 @title[Terraform Resource Blocks]
