@@ -32,10 +32,10 @@ The set of files used to describe infrastructure in Terraform is simply known as
 @snapend
 
 @[1](init)
-@[2](apply)
-@[3](destroy)
-@[4](fmt)
-@[5](validate)
+@[3](apply)
+@[5](destroy)
+@[7](fmt)
+@[9](validate)
 
 ---
 @title[Terraform Resource Blocks]
