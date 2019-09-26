@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/wizelineacademy/terraform-academy.svg?style=svg)](https://circleci.com/gh/wizelineacademy/terraform-academy)
+
 # Terraform Academy
 
 
