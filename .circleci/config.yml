@@ -8,7 +8,7 @@ version: 2
         command: |
             for num in 1 2; do (
               cd lesson0${num} &&
-              terraform init &&
+              terraform init -input=false &&
               terraform validate -json &&
               cp ../slides/lesson${num}/solution/main.tf main.tf
               terraform validate -json &&
