@@ -11,8 +11,8 @@ The set of files used to describe infrastructure in Terraform is simply known as
 @snap[west span-85]
 ### Terraform core commands
 @ul[spaced text-black]
-- init.
-- plan.
+- ``` bash init```
+- ``` bash plan```
 - apply.
 - destroy.
 - fmt.
@@ -38,4 +38,3 @@ resource "aws_instance" "web" {
 ```
 @[1-3](provider)
 @[5-8](resource)
----
