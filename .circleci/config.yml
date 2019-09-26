@@ -1,0 +1,92 @@
+version: 2
+
+.steps_template: &steps_terraform_static_analysis
+  steps:
+    - checkout
+    - run:
+        name: "Check: Validate tf files (terraform validate)"
+        command: |
+            for num in 1 2; do (
+              cd lesson0${num} &&
+              terraform init -input=false &&
+              terraform validate -json &&
+              cp ../slides/lesson${num}/solution/main.tf main.tf
+              terraform validate -json &&
+              cp -f ../slides/lesson${num}/solution/main_hard_code.tf main.tf
+              terraform validate -json &&
+              cd - &&
+              echo "√ ${REPLY}") || exit 1
+            done
+    - run:
+        name: "Check: Terraform formatting (terraform fmt)"
+        command: |
+            if [ `terraform fmt --list=true -diff=true -write=false | tee format-issues | wc -c` -ne 0 ]; then
+              echo "Some terraform files need be formatted, run 'terraform fmt' to fix"
+              echo "Formatting issues:"
+              cat format-issues
+              exit 1
+            fi
+    - run:
+        name: "Install: tflint"
+        command: |
+            apk update
+            apk add jq wget curl
+            # Get latest version of tflint (v0.7.0 test if still need to exclude modules. Any other changes)
+            pkg_arch=linux_amd64
+            dl_url=$(curl -s https://api.github.com/repos/wata727/tflint/releases/latest | jq -r ".assets[] | select(.name | test(\"${pkg_arch}\")) | .browser_download_url")
+            wget ${dl_url}
+            unzip tflint_linux_amd64.zip
+            mkdir -p /usr/local/tflint/bin
+            # Setup PATH for later run steps - ONLY for Bash and not in Bash
+            #echo 'export PATH=/usr/local/tflint/bin:$PATH' >> $BASH_ENV
+            echo "Installing tflint..."
+            install tflint /usr/local/tflint/bin
+            echo "Configuring tflint..."
+            tf_ver=$(terraform version | awk 'FNR <= 1' | cut -dv -f2)
+            echo -e "\tConfig for terraform version: ${tf_ver}"
+            if [ -f '.tflint.hcl' ]; then
+              sed -i "/terraform_version =/s/\".*\"/\"${tf_ver}\"/" .tflint.hcl
+            else
+              {
+              echo -e "config {\ndeep_check = false\nignore_module = {"
+              for module in $(grep -h '[^a-zA-Z]source[ =]' lesson*/*.tf | sed -r 's/.*=\s+//' | sort -u); do
+                # if not ^"../
+                echo "${module} = true"
+              done
+              echo -e "}\n}\n"
+              } > .tflint.hcl
+              fi
+            echo "tflint configuration:"
+            cat .tflint.hcl
+    - run:
+        # Not supporting modules from registry ?? v0.5.4
+        # For now, must ignore in config file
+        name: "Check: tflint"
+        command: |
+            #echo "Initializing terraform..."
+            #terraform init -input=false
+            echo "Running tflint..."
+            /usr/local/tflint/bin/tflint --version
+            /usr/local/tflint/bin/tflint
+jobs:
+  ###
+  ### Terraform testing
+  ###
+  terraform_0_12_9:
+    docker:
+      - image: hashicorp/terraform:0.12.9
+        entrypoint: /bin/sh
+    <<: *steps_terraform_static_analysis
+
+  terraform_latest:
+    docker:
+      - image: hashicorp/terraform:latest
+        entrypoint: /bin/sh
+    <<: *steps_terraform_static_analysis
+
+workflows:
+  version: 2
+  terraform_testing:
+    jobs:
+      - terraform_0_12_9
+      - terraform_latest
