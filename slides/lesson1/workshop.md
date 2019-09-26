@@ -4,10 +4,11 @@
 
 ---?code=slides/lesson1/solution/main_hard_code.tf&title=Terraform Main
 @snap[span-90]
-@[2-4](provider)
-@[7-15](setup default vpc)
-@[17-20](security group)
-@[22-34](security group ingress)
-@[36-44](security group egress)
-@[46-63](EC2 instance)
-@[67-74](DNS record)
+@[1-4](provider)
+@[6-17](setup default vpc)
+@[19-29](security group)
+@[30-46](security group ingress)
+@[47-60](security group egress)
+@[61-80](EC2 instance)
+@[82-96](EC2 instance)
+@[98-112](DNS record)
