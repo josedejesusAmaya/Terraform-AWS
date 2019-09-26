@@ -15,3 +15,7 @@
 @[61-78](EC2 instance)
 @[78-96](EC2 instance)
 @[98-112](DNS record)
+@snapend
+
+---
+![Architecture Diagram](slides/assets/img/lesson01-diagram.png)
