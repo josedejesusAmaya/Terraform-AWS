@@ -6,11 +6,6 @@ The set of files used to describe infrastructure in Terraform is simply known as
 @title[Terraform Commands]
 ### Terraform Commands
 
----
-@title[What is Terraform?]
-@snap[west span-85]
-### Terraform core commands
-
 @ul[spaced text-black]
 - init.
 - plan.
