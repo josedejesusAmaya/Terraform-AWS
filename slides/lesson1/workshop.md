@@ -2,12 +2,20 @@
 @title[What is Terraform?]
 ### Hands on work
 
+---
+![Architecture Diagram](slides/assets/img/lesson01-diagram.png)
+
 ---?code=slides/lesson1/solution/main_hard_code.tf&title=Terraform Main
 @snap[span-90]
-@[2-11](provider)
-@[13-21](setup default vpc)
-@[23-26](security group)
-@[35-40](security group ingress)
-@[42-47](security group egress)
-@[52-66](EC2 instance)
-@[68-74](DNS record)
+@[1-4](provider)
+@[6-17](setup default vpc)
+@[19-27](security group)
+@[28-44](security group ingress)
+@[45-57](security group egress)
+@[58-76](EC2 instance)
+@[77-91](EC2 instance)
+@[93-107](DNS record)
+@snapend
+
+---
+![Architecture Diagram](slides/assets/img/lesson01-diagram.png)

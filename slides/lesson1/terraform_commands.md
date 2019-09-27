@@ -1,10 +1,54 @@
 ---?color=var(--color-light-gray-2)
 
-The set of files used to describe infrastructure in Terraform is simply known as a Terraform configuration. (*.tf) 
+The set of files used to describe infrastructure in Terraform is simply known as a Terraform configuration. (*.tf)
+
+---
+@title[Terraform Commands]
+### Terraform Commands
+
+---
+@title[Terraform core commands]
+@snap[west span-85]
+### Terraform core commands
+
+@title[init]
+
+@title[apply]
+
+@title[destroy]
+
+@title[fmt]
+
+@title[validate]
+
+
+```bash
+  terraform init
+
+  terraform apply
+
+  terraform destroy
+
+  terraform fmt
+
+  terraform validate
+```
+
+@[1-2](init)
+@[3-4](apply)
+@[5-6](destroy)
+@[7-8](fmt)
+@[9-10](validate)
+
+@snapend
+
+---
+@title[Terraform Resource Blocks]
+### Terraform Resource Blocks
 
 ---
 @title[provider]
-
+@title[resource]
 ```
 provider "aws" {
   region = "us-east-2"
@@ -16,19 +60,4 @@ resource "aws_instance" "web" {
 }
 ```
 @[1-3](provider)
----
-@title[Terraform Commands]
-### Terraform Commands
-
----
-@title[What is Terraform?]
-@snap[west span-85]
-### Terraform core commands
-@ul[spaced text-black]
-- init.
-- plan.
-- apply.
-- destroy.
-- fmt.
-@ulend
-@snapend
+@[5-8](resource)
