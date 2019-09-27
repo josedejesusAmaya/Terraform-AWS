@@ -19,17 +19,15 @@ resource "aws_default_vpc" "default" {
 # Creation of the security group (SG) that
 # is going to be used for our instance
 resource "aws_security_group" "web" {
-  # Name to be assigned to the SG
   name        = "${data.aws_caller_identity.current.user_id}-web"
-  # Description of the SG
   description = "Allow web traffic"
   # We're calling the `aws_default_vpc` default resource
   # This gets the id from the vpc imported above (line 8)
   vpc_id      = aws_default_vpc.default.id
 
   # Ingress rules for the SG
-  # Lines 32-37 allow TCP port 22 for all IPs (ssh)
-  # Lines 40-45 allow TCP port 80 for all IPs (http)
+  # Allow TCP port 22 for all IPs (ssh)
+  # Allow TCP port 80 for all IPs (http)
   ingress {
     from_port   = 22
     to_port     = 22
@@ -45,7 +43,7 @@ resource "aws_security_group" "web" {
   }
 
   # Egress rules for the SG
-  # Lines 49-54 allow egress traffic for all ports (0)
+  # Allow egress traffic for all ports (0)
   # for all protocols (-1) to all IPs
   egress {
     from_port   = 0
@@ -54,7 +52,6 @@ resource "aws_security_group" "web" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Adds tags defined in `variables.tf` to this resource
   tags = var.tags
 }
 
@@ -65,7 +62,6 @@ resource "aws_instance" "web" {
   # If you change region please search the id
   # for the Amazon Linux 2 AMI
   ami           = "ami-02bcbb802e03574ba"
-  # Instance type to use
   instance_type = "m4.large"
   # SSH key name that is going to be used to
   # access our instance.
@@ -85,8 +81,7 @@ resource "aws_instance" "web" {
   user_data = data.template_file.user_data.rendered
   # List that contains the SGs IDs to apply to the instance
   vpc_security_group_ids = [aws_security_group.web.id]
-  # Tags to identify the instance, this will help us identify the
-  # instance
+
   tags = merge(
     var.tags,
     {

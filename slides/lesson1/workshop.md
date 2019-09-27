@@ -9,12 +9,12 @@
 @snap[span-90]
 @[1-4](provider)
 @[6-17](setup default vpc)
-@[19-29](security group)
-@[30-46](security group ingress)
-@[47-60](security group egress)
-@[61-78](EC2 instance)
-@[78-96](EC2 instance)
-@[98-112](DNS record)
+@[19-27](security group)
+@[28-44](security group ingress)
+@[45-57](security group egress)
+@[58-76](EC2 instance)
+@[77-91](EC2 instance)
+@[93-107](DNS record)
 @snapend
 
 ---
