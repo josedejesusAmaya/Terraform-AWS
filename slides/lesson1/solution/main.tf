@@ -15,7 +15,7 @@ resource "aws_security_group" "web" {
   name        = "${data.aws_caller_identity.current.user_id}-web"
   description = "Allow web traffic"
   # We're calling the `aws_default_vpc` default resource
-  # This gets the id from the vpc imported above (line 8)
+  # This gets the id from the vpc imported above
   vpc_id      = aws_default_vpc.default.id
 
   # Ingress rules for the SG
