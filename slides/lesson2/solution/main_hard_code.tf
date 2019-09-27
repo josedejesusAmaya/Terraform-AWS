@@ -39,8 +39,8 @@ resource "aws_elb" "elb" {
     unhealthy_threshold = 2
     timeout             = 5
   }
-  cross_zone_load_balancing   = "true"
-  connection_draining         = "true"
+  cross_zone_load_balancing   = true
+  connection_draining         = true
   connection_draining_timeout = 100
   internal                    = false
 }
@@ -48,7 +48,6 @@ resource "aws_elb" "elb" {
 #===========================================
 #  Route 53 Record
 #===========================================
-
 resource "aws_route53_zone" "tf-workshop" {
   name = var.domain
 }
@@ -107,7 +106,6 @@ resource "aws_launch_configuration" "lc" {
   associate_public_ip_address = false
   spot_price                  = "0.02"
 
-
   lifecycle {
     create_before_destroy = true
   }
@@ -119,7 +117,6 @@ resource "aws_launch_configuration" "lc" {
 resource "aws_autoscaling_group" "asg" {
   name_prefix          = "sample-app-dev-asg-latest-"
   launch_configuration = aws_launch_configuration.lc.name
-  # availability_zones        = data.aws_availability_zones.available.zone_ids
   load_balancers            = [aws_elb.elb.id]
   health_check_type         = "ELB"
   health_check_grace_period = 60
@@ -142,4 +139,11 @@ resource "aws_autoscaling_group" "asg" {
   lifecycle {
     create_before_destroy = true
   }
+}
+
+#===========================================
+#  Output Load Balancer DNS
+#===========================================
+output "elb_dns" {
+  value = aws_elb.elb.dns_name
 }
