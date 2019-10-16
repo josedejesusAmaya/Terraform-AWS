@@ -7,12 +7,12 @@ terraform {
   backend "s3" {
     bucket = "wizeline-academy-terraform"
     key    = "terraform-academy/terraform.tfstate"
-    region = "us-east-2"
+    region = "us-east-1"
   }
 }
 
 variable "aws_region" {
-  default = "us-east-2"
+  default = "us-east-1"
 }
 
 variable "tf_state_bucket" {

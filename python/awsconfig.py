@@ -81,7 +81,7 @@ def update_aws_config(profile, output, region):
     with open(config_file, 'w+') as new_config_file:
         config.write(new_config_file)
 
-def create_user_export_file(aws_profile, aws_region="us-east-2"):
+def create_user_export_file(aws_profile, aws_region="us-east-1"):
     """
     Creates an export file for the AWS Profile and AWS Region env
     variables.
@@ -143,7 +143,7 @@ def main(variables):
     aws_sec = variables["aws_secret_access_key"]
     prof = variables["aws_profile"]
     update_aws_credentials(prof, aws_key, aws_sec, '')
-    update_aws_config(prof, 'json', 'us-east-2')
+    update_aws_config(prof, 'json', 'us-east-1')
     print("Profile updated successfully")
     create_user_export_file(prof)
     sys.exit(0)

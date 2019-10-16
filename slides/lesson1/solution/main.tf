@@ -1,6 +1,6 @@
 # Configure AWS Cloud provider
 provider "aws" {
-  region = "us-east-2"
+  region = "us-east-1"
 }
 
 # Configure default vpc present in
@@ -54,7 +54,7 @@ resource "aws_instance" "web" {
   # AMI image computed by Terraform, see the
   # `data.tf` file to check how it is computed.
   ami           = data.aws_ami.amazon_linux.id
-  instance_type = "m4.large"
+  instance_type = "t2.micro"
   # SSH key name that is going to be used to
   # access our instance.
   # Please create this resource from the AWS console

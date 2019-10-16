@@ -1,5 +1,5 @@
 variable "instance_type" {
-  default = "m4.large"
+  default = "t2.micro"
 }
 
 variable "associate_public_ip_address" {

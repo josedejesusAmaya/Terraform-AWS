@@ -6,7 +6,7 @@ provider "aws" {
 # terraform {
 #  backend "s3" {
 #    bucket = "your-bucket-name-here"
-#    region = "us-east-2"
+#    region = "us-east-1"
 #  }
 #}
 
@@ -157,7 +157,7 @@ resource "aws_autoscaling_group" "asg" {
   # A maximum duration that Terraform should wait for ASG instances to be healthy before timing out.
   # wait_for_capacity_timeout = "20m"
   #
-  # autoscaling group metrics as a group 
+  # autoscaling group metrics as a group
   # https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html
   #
   # metrics_granularity       = "${var.metrics_granularity}"

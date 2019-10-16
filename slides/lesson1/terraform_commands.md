@@ -51,12 +51,12 @@ The set of files used to describe infrastructure in Terraform is simply known as
 @title[resource]
 ```
 provider "aws" {
-  region = "us-east-2"
+  region = "us-east-1"
 }
 
 resource "aws_instance" "web" {
-  ami           = "ami-02bcbb802e03574ba"
-  instance_type = "m4.large"
+  ami           = "ami-00c03f7f7f2ec15c3"
+  instance_type = "t2.micro"
 }
 ```
 @[1-3](provider)

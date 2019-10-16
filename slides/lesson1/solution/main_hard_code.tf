@@ -1,6 +1,6 @@
 # Configure AWS Cloud provider
 provider "aws" {
-  region = "us-east-2"
+  region = "us-east-1"
 }
 
 # Configure default vpc present in
@@ -58,11 +58,11 @@ resource "aws_security_group" "web" {
 # Creation of the EC2 instance that will serve as
 # web server.
 resource "aws_instance" "web" {
-  # AMI image present in `us-east-2`
+  # AMI image present in `us-east-1`
   # If you change region please search the id
   # for the Amazon Linux 2 AMI
-  ami           = "ami-02bcbb802e03574ba"
-  instance_type = "m4.large"
+  ami           = "ami-00c03f7f7f2ec15c3"
+  instance_type = "t2.micro"
   # SSH key name that is going to be used to
   # access our instance.
   # Please create this resource from the AWS console

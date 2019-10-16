@@ -7,7 +7,7 @@ provider "aws" {
 # https://www.terraform.io/docs/backends/types/s3.html
 # terraform {
 #   backend "s3" {
-#     region = "us-east-2"
+#     region = "us-east-1"
 #   }
 # }
 
