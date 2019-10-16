@@ -104,7 +104,7 @@ resource "aws_launch_configuration" "lc" {
   security_groups             = [aws_security_group.web.id]
   user_data                   = data.template_file.deploy_sh.rendered
   associate_public_ip_address = false
-  spot_price                  = "0.02"
+  # spot_price                  = "0.02"
 
   lifecycle {
     create_before_destroy = true
