@@ -5,7 +5,8 @@ variable "aws_region" {
 variable "metadata" {
   default = {
     appname    = "sample-app"
-    appversion = "latest"
+    appversion = "alpine"
+    image      = "nginx"
   }
 }
 

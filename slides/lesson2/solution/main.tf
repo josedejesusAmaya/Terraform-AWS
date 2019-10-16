@@ -129,9 +129,8 @@ resource "aws_launch_configuration" "lc" {
 #  Auto scaling Group
 #===========================================
 resource "aws_autoscaling_group" "asg" {
-  name_prefix          = "${var.metadata["appname"]}-${var.env}-asg-${var.metadata["appversion"]}-"
+  name                 = aws_launch_configuration.lc.name
   launch_configuration = aws_launch_configuration.lc.name
-  # availability_zones        = data.aws_availability_zones.available.zone_ids
   load_balancers            = [aws_elb.elb.id]
   health_check_type         = var.health_check_type
   health_check_grace_period = var.health_check_grace_period

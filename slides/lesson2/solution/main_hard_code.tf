@@ -115,7 +115,7 @@ resource "aws_launch_configuration" "lc" {
 #  Auto scaling Group
 #===========================================
 resource "aws_autoscaling_group" "asg" {
-  name_prefix          = "sample-app-dev-asg-latest-"
+  name = aws_launch_configuration.lc.name
   launch_configuration = aws_launch_configuration.lc.name
   load_balancers            = [aws_elb.elb.id]
   health_check_type         = "ELB"

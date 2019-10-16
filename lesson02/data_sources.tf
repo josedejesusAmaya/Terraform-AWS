@@ -32,9 +32,10 @@ data "template_file" "deploy_sh" {
   template = file("${path.module}/userdata.sh")
 
   vars = {
-    docker_tag  = var.metadata["appversion"]
-    ENVIRONMENT = var.env
-    HOSTNAME    = "${var.metadata["appname"]}-${var.env}-ec2-${var.metadata["appversion"]}"
+    docker_tag   = var.metadata["appversion"]
+    docker_image = var.metadata["image"]
+    ENVIRONMENT  = var.env
+    HOSTNAME     = "${var.metadata["appname"]}-${var.env}-ec2-${var.metadata["appversion"]}"
   }
 }
 
