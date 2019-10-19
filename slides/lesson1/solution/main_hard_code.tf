@@ -61,7 +61,7 @@ resource "aws_instance" "web" {
   # AMI image present in `us-east-1`
   # If you change region please search the id
   # for the Amazon Linux 2 AMI
-  ami           = "ami-00c03f7f7f2ec15c3"
+  ami           = "ami-0b69ea66ff7391e80"
   instance_type = "t2.micro"
   # SSH key name that is going to be used to
   # access our instance.

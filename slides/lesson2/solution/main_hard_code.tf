@@ -99,7 +99,7 @@ resource "aws_security_group" "web" {
 #--------------------------------------------------------------
 resource "aws_launch_configuration" "lc" {
   name_prefix                 = "sample-app-dev-lc-latest-"
-  image_id                    = "ami-00c03f7f7f2ec15c3"
+  image_id                    = "ami-0b69ea66ff7391e80"
   instance_type               = "t2.micro"
   security_groups             = [aws_security_group.web.id]
   user_data                   = data.template_file.deploy_sh.rendered
