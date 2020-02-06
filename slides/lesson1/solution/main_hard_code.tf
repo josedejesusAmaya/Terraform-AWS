@@ -72,7 +72,7 @@ resource "aws_instance" "web" {
   # This step will execute a command on our local machine,
   # it will wait until the EC2 instance is ready to work.
   provisioner "local-exec" {
-    command = "bash -c 'MAX=10; C=0; until curl -s -o /dev/null ${aws_instance.web.public_dns}; do [ $C -eq $MAX ] && { exit 1; } || sleep 10; ((C++)); done;' || false"
+    command = "bash -c 'MAX=20; C=0; until curl -s -o /dev/null ${aws_instance.web.public_dns}; do [ $C -eq $MAX ] && { exit 1; } || sleep 10; ((C++)); done;' || false"
   }
 
   # Command used to set up our instance, will install docker and
