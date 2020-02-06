@@ -33,7 +33,7 @@ version: 2
             apk add jq wget curl
             # Get latest version of tflint (v0.7.0 test if still need to exclude modules. Any other changes)
             pkg_arch=linux_amd64
-            dl_url=$(curl -s https://api.github.com/repos/wata727/tflint/releases/latest | jq -r ".assets[] | select(.name | test(\"${pkg_arch}\")) | .browser_download_url")
+            dl_url=$(curl -s -L https://api.github.com/repos/wata727/tflint/releases/latest | jq -r ".assets[] | select(.name | test(\"${pkg_arch}\")) | .browser_download_url")
             wget ${dl_url}
             unzip tflint_linux_amd64.zip
             mkdir -p /usr/local/tflint/bin
